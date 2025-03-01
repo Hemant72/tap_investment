@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tap_investment/src/presentation/pages/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tap_investment/core/di/di.dart';
+import 'package:tap_investment/src/bond%20details/domain/usecase/get_bond_details.dart';
+import 'package:tap_investment/src/bond%20details/presentation/bloc/bond_details_bloc.dart';
+import 'package:tap_investment/src/bonds%20list/domain/usecase/get_bonds.dart';
+import 'package:tap_investment/src/bonds%20list/presentation/bloc/bonds_list_bloc.dart';
+import 'package:tap_investment/src/bonds%20list/presentation/pages/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -10,12 +18,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => BondsListBloc(getIt<GetBonds>())),
+        BlocProvider(
+          create: (context) => BondDetailsBloc(getIt<GetBondDetail>()),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'TAP Investment',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
       ),
-      home: HomeScreen(),
     );
   }
 }

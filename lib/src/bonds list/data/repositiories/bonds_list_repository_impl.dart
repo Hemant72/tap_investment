@@ -1,0 +1,31 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
+import 'package:tap_investment/core/error/exception.dart';
+import 'package:tap_investment/core/network/network_info.dart';
+import 'package:tap_investment/src/bonds%20list/data/datasource/bonds_list_remote_datasource.dart';
+import 'package:tap_investment/src/bonds%20list/data/model/bond_model.dart';
+import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
+import 'package:tap_investment/src/bonds%20list/domain/repositiories/bonds_list_repositiory.dart';
+
+@LazySingleton(as: BondsListRepository)
+class BondRepositoryImpl implements BondsListRepository {
+  final BondsListRemoteDataSource bondRemoteDataSource;
+  final NetworkInfo networkInfo;
+
+  BondRepositoryImpl(this.bondRemoteDataSource, this.networkInfo);
+
+  @override
+  Future<Either<Exception, List<Bond>>> getBonds() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteBonds = await bondRemoteDataSource.getBonds();
+        final bonds = remoteBonds.map((model) => model.toDomain()).toList();
+        return Right(bonds);
+      } on ServerException catch (e) {
+        return Left(e);
+      }
+    } else {
+      return Left(NetworkException(message: 'No internet connection'));
+    }
+  }
+}
