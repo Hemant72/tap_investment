@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../../../bond%20details/domain/entities/bond_detail.dart';
 
 class FinancialChart extends StatefulWidget {
@@ -167,7 +169,10 @@ class _FinancialChartState extends State<FinancialChart> {
 
   Widget _buildToggleButton(String text, bool isSelected, VoidCallback onTap) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HapticFeedback.mediumImpact();
+        onTap();
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

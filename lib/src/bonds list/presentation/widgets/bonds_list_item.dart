@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../bonds%20list/domain/entities/bond.dart';
 
 class BondListItem extends StatelessWidget {
@@ -11,7 +12,10 @@ class BondListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: (){
+        HapticFeedback.heavyImpact();
+        onTap();
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
         child: Row(

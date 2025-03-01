@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../bond%20details/presentation/pages/bond_detail_page.dart';
 import '../../../bonds%20list/domain/entities/bond.dart';
 import '../../../bonds%20list/presentation/bloc/bonds_list_bloc.dart';
@@ -21,6 +23,9 @@ class _HomePageState extends State<HomePage> {
     context.read<BondsListBloc>().add(const BondsListEvent.fetchBonds());
 
     _searchController.addListener(() {
+      if (_searchController.text.isNotEmpty) {
+        HapticFeedback.selectionClick();
+      }
       context.read<BondsListBloc>().add(
         BondsListEvent.searchBonds(_searchController.text),
       );

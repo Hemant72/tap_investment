@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../bond%20details/domain/entities/bond_detail.dart';
 import '../../../bond%20details/presentation/bloc/bond_details_bloc.dart';
 import '../../../bond%20details/presentation/widgets/bond_details_header.dart';
@@ -22,7 +24,11 @@ class _BondDetailPageState extends State<BondDetailPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        HapticFeedback.selectionClick();
+      }
+    });
     context.read<BondDetailsBloc>().add(
       const BondDetailsEvent.fetchBondDetail(),
     );
@@ -44,7 +50,10 @@ class _BondDetailPageState extends State<BondDetailPage>
         scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            HapticFeedback.mediumImpact();
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: BlocBuilder<BondDetailsBloc, BondDetailsState>(
