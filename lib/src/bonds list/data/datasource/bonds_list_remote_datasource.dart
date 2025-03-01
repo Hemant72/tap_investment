@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tap_investment/core/const/api_constants.dart';
-import 'package:tap_investment/core/error/exception.dart';
-import 'package:tap_investment/src/bonds%20list/data/model/bond_model.dart';
+import '../../../../core/const/api_constants.dart';
+import '../../../../core/error/exception.dart';
+import '../../../bonds%20list/data/model/bond_model.dart';
 
 abstract class BondsListRemoteDataSource {
   Future<List<BondModel>> getBonds();

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tap_investment/core/error/exception.dart';
-import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
-import 'package:tap_investment/src/bonds%20list/domain/usecase/get_bonds.dart';
+import '../../../../core/error/exception.dart';
+import '../../../bonds%20list/domain/entities/bond.dart';
+import '../../../bonds%20list/domain/usecase/get_bonds.dart';
 
 part 'bonds_list_bloc.freezed.dart';
 part 'bonds_list_event.dart';

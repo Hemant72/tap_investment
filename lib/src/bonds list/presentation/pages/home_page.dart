@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tap_investment/src/bond%20details/presentation/pages/bond_detail_page.dart';
-import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
-import 'package:tap_investment/src/bonds%20list/presentation/bloc/bonds_list_bloc.dart';
-import 'package:tap_investment/src/bonds%20list/presentation/widgets/bonds_list_item.dart';
+import '../../../bond%20details/presentation/pages/bond_detail_page.dart';
+import '../../../bonds%20list/domain/entities/bond.dart';
+import '../../../bonds%20list/presentation/bloc/bonds_list_bloc.dart';
+import '../../../bonds%20list/presentation/widgets/bonds_list_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

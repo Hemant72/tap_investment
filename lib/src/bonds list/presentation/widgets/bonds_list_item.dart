@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
+import '../../../bonds%20list/domain/entities/bond.dart';
 
 class BondListItem extends StatelessWidget {
   final Bond bond;
@@ -10,7 +10,7 @@ class BondListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),

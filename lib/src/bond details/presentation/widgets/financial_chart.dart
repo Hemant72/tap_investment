@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:tap_investment/src/bond%20details/domain/entities/bond_detail.dart';
+import '../../../bond%20details/domain/entities/bond_detail.dart';
 
 class FinancialChart extends StatefulWidget {
   final Financials financials;
@@ -12,11 +12,13 @@ class FinancialChart extends StatefulWidget {
 }
 
 class _FinancialChartState extends State<FinancialChart> {
-  
+  bool showEbitda = true;
+
   @override
   Widget build(BuildContext context) {
     final ebitdaData = widget.financials.ebitda;
     final revenueData = widget.financials.revenue;
+    final maxValue = _getMaxValue(ebitdaData, revenueData) * 1.2;
 
     return Card(
       color: Colors.white,
@@ -25,80 +27,37 @@ class _FinancialChartState extends State<FinancialChart> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'COMPANY FINANCIALS',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey.shade600,
-                letterSpacing: 0.5,
-              ),
-            ),
-            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'EBITDA',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ],
+                Text(
+                  'COMPANY FINANCIALS',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade600,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Revenue',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade200,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ],
-                ),
+                _buildToggleButtons(),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 18),
+
             Expanded(
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: _getMaxValue(ebitdaData, revenueData) * 1.2,
+                  maxY: maxValue,
                   barTouchData: BarTouchData(
                     enabled: true,
                     touchTooltipData: BarTouchTooltipData(
-                      // tooltipBgColor: Colors.grey.shade800,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        String label = '';
-                        if (rodIndex == 0) {
-                          label = 'EBITDA: ${rod.toY.toStringAsFixed(1)}';
-                        } else {
-                          label = 'Revenue: ${rod.toY.toStringAsFixed(1)}';
-                        }
+                        String label =
+                            showEbitda
+                                ? 'EBITDA: ${rod.toY.toStringAsFixed(1)}L'
+                                : 'Revenue: ${rod.toY.toStringAsFixed(1)}L';
+
                         return BarTooltipItem(
                           label,
                           const TextStyle(
@@ -119,10 +78,12 @@ class _FinancialChartState extends State<FinancialChart> {
                           if (value.toInt() >= ebitdaData.length) {
                             return const SizedBox();
                           }
+                          String monthLabel = ebitdaData[value.toInt()].month
+                              .substring(0, 1);
                           return Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
-                              ebitdaData[value.toInt()].month,
+                              monthLabel,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 10,
@@ -150,30 +111,20 @@ class _FinancialChartState extends State<FinancialChart> {
                       x: index,
                       barRods: [
                         BarChartRodData(
-                          toY: ebitdaData[index].value,
-                          color: Colors.black,
+                          toY:
+                              showEbitda
+                                  ? ebitdaData[index].value
+                                  : revenueData[index].value,
+                          color: showEbitda ? Colors.black : Colors.blue,
                           width: 16,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(2),
-                            topRight: Radius.circular(2),
-                          ),
-                        ),
-                        BarChartRodData(
-                          toY: revenueData[index].value,
-                          color: Colors.blue.shade200,
-                          width: 16,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(2),
-                            topRight: Radius.circular(2),
-                          ),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ],
                     ),
                   ),
                   gridData: FlGridData(
                     show: true,
-                    horizontalInterval:
-                        _getMaxValue(ebitdaData, revenueData) / 4,
+                    horizontalInterval: maxValue / 4,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
                         color: Colors.grey.shade200,
@@ -186,6 +137,60 @@ class _FinancialChartState extends State<FinancialChart> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildToggleButtons() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          _buildToggleButton('EBITDA', showEbitda, () {
+            setState(() {
+              showEbitda = true;
+            });
+          }),
+          _buildToggleButton('Revenue', !showEbitda, () {
+            setState(() {
+              showEbitda = false;
+            });
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToggleButton(String text, bool isSelected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow:
+              isSelected
+                  ? [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                  : null,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? Colors.black : Colors.grey.shade600,
+          ),
         ),
       ),
     );

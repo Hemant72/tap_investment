@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
+import '../../../bonds%20list/domain/entities/bond.dart';
 
 part 'bond_model.freezed.dart';
 part 'bond_model.g.dart';

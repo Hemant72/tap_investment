@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tap_investment/core/di/di.dart';
-import 'package:tap_investment/src/bond%20details/domain/usecase/get_bond_details.dart';
-import 'package:tap_investment/src/bond%20details/presentation/bloc/bond_details_bloc.dart';
-import 'package:tap_investment/src/bonds%20list/domain/usecase/get_bonds.dart';
-import 'package:tap_investment/src/bonds%20list/presentation/bloc/bonds_list_bloc.dart';
-import 'package:tap_investment/src/bonds%20list/presentation/pages/home_page.dart';
+import 'core/di/di.dart';
+import 'src/bond%20details/domain/usecase/get_bond_details.dart';
+import 'src/bond%20details/presentation/bloc/bond_details_bloc.dart';
+import 'src/bonds%20list/domain/usecase/get_bonds.dart';
+import 'src/bonds%20list/presentation/bloc/bonds_list_bloc.dart';
+import 'src/bonds%20list/presentation/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

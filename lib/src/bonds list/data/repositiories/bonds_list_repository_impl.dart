@@ -1,11 +1,11 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tap_investment/core/error/exception.dart';
-import 'package:tap_investment/core/network/network_info.dart';
-import 'package:tap_investment/src/bonds%20list/data/datasource/bonds_list_remote_datasource.dart';
-import 'package:tap_investment/src/bonds%20list/data/model/bond_model.dart';
-import 'package:tap_investment/src/bonds%20list/domain/entities/bond.dart';
-import 'package:tap_investment/src/bonds%20list/domain/repositiories/bonds_list_repositiory.dart';
+import '../../../../core/error/exception.dart';
+import '../../../../core/network/network_info.dart';
+import '../../../bonds%20list/data/datasource/bonds_list_remote_datasource.dart';
+import '../../../bonds%20list/data/model/bond_model.dart';
+import '../../../bonds%20list/domain/entities/bond.dart';
+import '../../../bonds%20list/domain/repositiories/bonds_list_repositiory.dart';
 
 @LazySingleton(as: BondsListRepository)
 class BondRepositoryImpl implements BondsListRepository {

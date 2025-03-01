@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tap_investment/src/bond%20details/domain/entities/bond_detail.dart';
-import 'package:tap_investment/src/bond%20details/presentation/bloc/bond_details_bloc.dart';
-import 'package:tap_investment/src/bond%20details/presentation/widgets/bond_details_header.dart';
-import 'package:tap_investment/src/bond%20details/presentation/widgets/financial_chart.dart';
-import 'package:tap_investment/src/bond%20details/presentation/widgets/issuer_details.dart';
-import 'package:tap_investment/src/bond%20details/presentation/widgets/pros_cons_section.dart';
+import '../../../bond%20details/domain/entities/bond_detail.dart';
+import '../../../bond%20details/presentation/bloc/bond_details_bloc.dart';
+import '../../../bond%20details/presentation/widgets/bond_details_header.dart';
+import '../../../bond%20details/presentation/widgets/financial_chart.dart';
+import '../../../bond%20details/presentation/widgets/issuer_details.dart';
+import '../../../bond%20details/presentation/widgets/pros_cons_section.dart';
 
 class BondDetailPage extends StatefulWidget {
   const BondDetailPage({super.key});
@@ -17,19 +17,12 @@ class BondDetailPage extends StatefulWidget {
 class _BondDetailPageState extends State<BondDetailPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _currentTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        setState(() {
-          _currentTabIndex = _tabController.index;
-        });
-      }
-    });
+
     context.read<BondDetailsBloc>().add(
       const BondDetailsEvent.fetchBondDetail(),
     );
@@ -102,9 +95,14 @@ class _BondDetailPageState extends State<BondDetailPage>
             ),
           ),
 
-          _currentTabIndex == 0
-              ? _buildAnalysisContent(bondDetail)
-              : ProsConsSection(prosAndCons: bondDetail.prosAndCons),
+          AnimatedBuilder(
+            animation: _tabController,
+            builder: (context, child) {
+              return _tabController.index == 0
+                  ? _buildAnalysisContent(bondDetail)
+                  : ProsConsSection(prosAndCons: bondDetail.prosAndCons);
+            },
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tap_investment/src/bond%20details/domain/entities/bond_detail.dart';
+import '../../../bond%20details/domain/entities/bond_detail.dart';
 
 class BondDetailHeader extends StatelessWidget {
   final BondDetail bondDetail;
