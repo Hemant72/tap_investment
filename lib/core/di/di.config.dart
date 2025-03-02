@@ -45,7 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.internetConnectionChecker,
     );
     gh.lazySingleton<_i902.BondsListRemoteDataSource>(
-      () => _i902.BondRemoteDataSourceImpl(gh<_i361.Dio>()),
+      () => _i902.BondsListRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i981.BondDetailRemoteDataSource>(
       () => _i981.BondDetailRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -53,23 +53,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i932.NetworkInfo>(
       () => _i932.NetworkInfoImpl(gh<_i973.InternetConnectionChecker>()),
     );
-    gh.lazySingleton<_i341.BondsListRepository>(
-      () => _i777.BondRepositoryImpl(
-        gh<_i902.BondsListRemoteDataSource>(),
-        gh<_i932.NetworkInfo>(),
-      ),
-    );
     gh.lazySingleton<_i299.BondDetailsRepository>(
-      () => _i853.BondRepositoryImpl(
+      () => _i853.BondDetailsRepositoryImpl(
         gh<_i981.BondDetailRemoteDataSource>(),
         gh<_i932.NetworkInfo>(),
       ),
     );
-    gh.lazySingleton<_i146.GetBonds>(
-      () => _i146.GetBonds(gh<_i341.BondsListRepository>()),
+    gh.lazySingleton<_i341.BondsListRepository>(
+      () => _i777.BondsListRepositoryImpl(
+        gh<_i902.BondsListRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
     );
     gh.lazySingleton<_i271.GetBondDetail>(
       () => _i271.GetBondDetail(gh<_i299.BondDetailsRepository>()),
+    );
+    gh.lazySingleton<_i146.GetBonds>(
+      () => _i146.GetBonds(gh<_i341.BondsListRepository>()),
     );
     return this;
   }

@@ -9,10 +9,10 @@ abstract class BondsListRemoteDataSource {
 }
 
 @LazySingleton(as: BondsListRemoteDataSource)
-class BondRemoteDataSourceImpl implements BondsListRemoteDataSource {
+class BondsListRemoteDataSourceImpl implements BondsListRemoteDataSource {
   final Dio dio;
 
-  BondRemoteDataSourceImpl(this.dio);
+  BondsListRemoteDataSourceImpl(this.dio);
 
   @override
   Future<List<BondModel>> getBonds() async {

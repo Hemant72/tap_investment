@@ -8,11 +8,11 @@ import '../../../bond%20details/domain/entities/bond_detail.dart';
 import '../../../bond%20details/domain/repositiories/bond_details_repositiory.dart';
 
 @LazySingleton(as: BondDetailsRepository)
-class BondRepositoryImpl implements BondDetailsRepository {
+class BondDetailsRepositoryImpl implements BondDetailsRepository {
   final BondDetailRemoteDataSource bondDetailRemoteDataSource;
   final NetworkInfo networkInfo;
 
-  BondRepositoryImpl(this.bondDetailRemoteDataSource, this.networkInfo);
+  BondDetailsRepositoryImpl(this.bondDetailRemoteDataSource, this.networkInfo);
 
   @override
   Future<Either<Exception, BondDetail>> getBondDetail() async {
